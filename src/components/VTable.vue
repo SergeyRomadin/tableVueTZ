@@ -173,6 +173,7 @@ export default {
   display: flex;
   justify-content: space-around;
   border-bottom: solid 1px #2c3e50;
+  font-size: calc(5px + 22 * (100vw / 1280));
 
   p {
     padding-left: -20px;
@@ -181,6 +182,9 @@ export default {
     flex-basis: 25%;
     text-align: left;
     cursor: pointer;
+    &:hover {
+      color: #42b983;
+    }
     &:first-child {
       margin-left: 20px;
       flex-basis: 25%;

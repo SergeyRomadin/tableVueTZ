@@ -13,7 +13,7 @@ export default {
   name: "VTableRow",
   data() {
     return {
-      date: dayjs(this.rowData.date).format("DD.MM.YYYY hh:mm"),
+      date: dayjs(this.rowData.date).format("DD.MM.YYYY"),
     };
   },
   props: {
@@ -28,6 +28,12 @@ export default {
 .v-table-row {
   display: flex;
   justify-content: space-around;
+  border-bottom: solid 1px #2c3e501e;
+  &:hover {
+    background: #42b983;
+    // cursor: pointer;
+    color: azure;
+  }
 }
 .row {
   flex-basis: 25%;

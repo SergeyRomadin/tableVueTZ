@@ -1,21 +1,22 @@
 <template>
   <div class="v-table__filter">
-    <select v-model="collumn">
+    <select class="input" @change="this.onSearch" v-model="collumn">
       <option value="date">Дата</option>
-      <option value="name">Имя</option>
+      <option value="name">Название</option>
       <option value="total">Количество</option>
       <option value="distance">Расстояние</option>
     </select>
-    <select v-model="type">
+    <select class="input" @change="this.onSearch" v-model="type">
       <option value="=">=</option>
       <option value="includes">Содержит</option>
       <option value=">">></option>
       <option value="<">&lt;</option>
     </select>
     <input
+      class="input"
       v-model="searchInputValue"
-      @input="this.onSearch"
-      type="search"
+      @input="onSearch"
+      :type="inputType"
       name="searchInput"
       placeholder="Введите текст..."
       id=""
@@ -40,11 +41,14 @@ export default {
   },
   computed: {
     ...mapGetters(["tableData"]),
+    inputType() {
+      return this.collumn === "date" ? "date" : "search";
+    },
     onSearch() {
       let filteTableData = this.tableData.filter((el) => {
         switch (this.collumn) {
           case "date":
-            let formatDate = dayjs(el.date).format("DD.MM.YYYY hh:mm");
+            let formatDate = dayjs(el.date).format("YYYY.MM.DD");
             switch (this.type) {
               case "=":
                 return formatDate == this.searchInputValue;
@@ -107,4 +111,20 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.v-table__filter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  @media (max-width: 479px) {
+    flex-direction: column;
+  }
+}
+.input {
+  width: 20vw;
+  @media (max-width: 479px) {
+    width: 100%;
+  }
+}
+</style>

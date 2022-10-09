@@ -1,7 +1,7 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/">Таблица</router-link> |
+    <router-link to="/about">Информация</router-link>
   </nav>
   <router-view />
 </template>
@@ -27,6 +27,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  font-size: calc(4px + 22 * (100vw / 1280));
 }
 
 nav {
