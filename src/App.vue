@@ -3,8 +3,22 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </nav>
-  <router-view/>
+  <router-view />
 </template>
+
+<script>
+import { mapActions } from "vuex";
+
+export default {
+  methods: {
+    ...mapActions(["GET_TABLE_DATA_FROM_API"]),
+  },
+
+  created() {
+    this.GET_TABLE_DATA_FROM_API();
+  },
+};
+</script>
 
 <style lang="scss">
 #app {
