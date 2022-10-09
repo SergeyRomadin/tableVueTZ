@@ -26,7 +26,7 @@
 
 <script>
 import dayjs from "dayjs";
-import { mapMutations, mapGetters } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default {
   props: { propTableData: Array },
   data() {
@@ -40,72 +40,29 @@ export default {
     ...mapMutations(["setFilterTableData", "setFilterTableDataDefault"]),
   },
   computed: {
-    ...mapGetters(["tableData"]),
+    ...mapState(["tableData"]),
     inputType() {
       return this.collumn === "date" ? "date" : "search";
     },
     onSearch() {
       let filteTableData = this.tableData.filter((el) => {
-        switch (this.collumn) {
-          case "date":
-            let formatDate = dayjs(el.date).format("YYYY.MM.DD");
-            switch (this.type) {
-              case "=":
-                return formatDate == this.searchInputValue;
-              case "includes":
-                return formatDate.includes(this.searchInputValue);
-              case ">":
-                return formatDate > this.searchInputValue;
-              case "<":
-                return formatDate < this.searchInputValue;
-            }
-            break;
-          case "name":
-            switch (this.type) {
-              case "=":
-                return el.name == this.searchInputValue;
-              case "includes":
-                return el.name.includes(this.searchInputValue);
-              case ">":
-                return el.name > this.searchInputValue;
-              case "<":
-                return el.name < this.searchInputValue;
-            }
-            break;
-          case "total":
-            switch (this.type) {
-              case "=":
-                return el.total == this.searchInputValue;
-              case "includes":
-                let total = el.total + "";
-                return total.includes(this.searchInputValue);
-              case ">":
-                return el.total > this.searchInputValue;
-              case "<":
-                return el.total < this.searchInputValue;
-            }
-            break;
-          case "distance":
-            switch (this.type) {
-              case "=":
-                return el.distance == this.searchInputValue;
-              case "includes":
-                let distance = el.distance + "";
-                return distance.includes(this.searchInputValue);
-              case ">":
-                return el.distance > this.searchInputValue;
-              case "<":
-                return el.distance < this.searchInputValue;
-            }
-            break;
+        switch (this.type) {
+          case "=":
+            if (this.collumn == "date") {
+              return el[this.collumn].includes(
+                this.searchInputValue.toLowerCase()
+              );
+            } else return el[this.collumn] == this.searchInputValue;
+          case "includes":
+            let element = el[this.collumn].toLowerCase();
+            return element.includes(this.searchInputValue.toLowerCase());
+          case ">":
+            return el[this.collumn] > this.searchInputValue;
+          case "<":
+            return el[this.collumn] < this.searchInputValue;
         }
       });
       return this.setFilterTableData(filteTableData);
-    },
-  },
-  watch: {
-    searchInputValue(val) {
-      if (val == "") this.setFilterTableDataDefault();
     },
   },
 };

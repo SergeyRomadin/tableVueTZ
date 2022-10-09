@@ -2,21 +2,30 @@
   <div class="v-table">
     <VTableFilter :propTableData="this.tableData" />
     <div class="v-table__header">
-      <p @click="sortByDate" :class="{ 'sort-selected': dateSorted !== 0 }">
+      <p
+        @click="sortByDate"
+        :class="{ 'sort-selected': activeSort[0] == 'date' }"
+      >
         Дата
         <UnfoldMoreHorizontal />
       </p>
-      <p @click="sortByName" :class="{ 'sort-selected': nameSorted !== 0 }">
+      <p
+        @click="sortByName"
+        :class="{ 'sort-selected': activeSort[0] == 'name' }"
+      >
         Название
         <UnfoldMoreHorizontal />
       </p>
-      <p @click="sortByTotal" :class="{ 'sort-selected': totalSorted !== 0 }">
+      <p
+        @click="sortByTotal"
+        :class="{ 'sort-selected': activeSort[0] == 'total' }"
+      >
         Количество
         <UnfoldMoreHorizontal />
       </p>
       <p
         @click="sortByDistance"
-        :class="{ 'sort-selected': distanceSorted !== 0 }"
+        :class="{ 'sort-selected': activeSort[0] == 'distance' }"
       >
         Расстояние
         <UnfoldMoreHorizontal />
@@ -40,6 +49,7 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 import UnfoldMoreHorizontal from "vue-material-design-icons/UnfoldMoreHorizontal";
 import VTableRow from "./VTableRow.vue";
 import VTableFilter from "./VTableFilter.vue";
@@ -58,6 +68,7 @@ export default {
       totalSorted: 0,
       dateSorted: 0,
       distanceSorted: 0,
+      activeSort: 0,
     };
   },
   props: { tableData: Array },
@@ -81,82 +92,70 @@ export default {
       });
     },
     sortByDate() {
-      this.nameSorted = 0;
-      this.distanceSorted = 0;
-      this.totalSorted = 0;
-      if (this.dateSorted === 0) {
-        this.dateSorted = 1;
+      if (this.activeSort[0] !== "date") this.activeSort = ["date", 0];
+      if (this.activeSort[1] === 0) {
+        this.activeSort[1] = 1;
         this.tableData.sort((a, b) => {
-          let aDate = +new Date(a.date),
-            bDate = +new Date(b.date);
-          return aDate - bDate;
+          return dayjs(a.date).diff(dayjs(b.date));
         });
-      } else if (this.dateSorted === 1) {
-        this.dateSorted = -1;
+      } else if (this.activeSort[1] === 1) {
+        this.activeSort[1] = -1;
         this.tableData.sort((a, b) => {
-          let aDate = +new Date(a.date),
-            bDate = +new Date(b.date);
-          return bDate - aDate;
+          return dayjs(b.date).diff(dayjs(a.date));
         });
-      } else if (this.dateSorted === -1) {
-        this.dateSorted = 0;
+      } else {
+        this.activeSort = [null, 0];
         this.currentSorted();
       }
     },
     sortByName() {
-      this.totalSorted = 0;
-      this.dateSorted = 0;
-      this.distanceSorted = 0;
-      if (this.nameSorted === 0) {
-        this.nameSorted = 1;
+      if (this.activeSort[0] !== "name") this.activeSort = ["name", 0];
+      if (this.activeSort[1] === 0) {
+        this.activeSort[1] = 1;
         this.tableData.sort((a, b) => {
           return a.name.localeCompare(b.name);
         });
-      } else if (this.nameSorted === 1) {
-        this.nameSorted = -1;
+      } else if (this.activeSort[1] === 1) {
+        this.activeSort[1] = -1;
         this.tableData.sort((a, b) => {
           return b.name.localeCompare(a.name);
         });
-      } else if (this.nameSorted === -1) {
-        this.nameSorted = 0;
+      } else {
+        this.activeSort = [null, 0];
         this.currentSorted();
       }
     },
     sortByTotal() {
-      this.nameSorted = 0;
-      this.dateSorted = 0;
-      this.distanceSorted = 0;
-      if (this.totalSorted === 0) {
-        this.totalSorted = 1;
+      if (this.activeSort[0] !== "total") this.activeSort = ["total", 0];
+      if (this.activeSort[1] === 0) {
+        this.activeSort[1] = 1;
         this.tableData.sort((a, b) => {
           return a.total - b.total;
         });
-      } else if (this.totalSorted === 1) {
-        this.totalSorted = -1;
+      } else if (this.activeSort[1] === 1) {
+        this.activeSort[1] = -1;
         this.tableData.sort((a, b) => {
           return b.total - a.total;
         });
-      } else if (this.totalSorted === -1) {
-        this.totalSorted = 0;
+      } else {
+        this.activeSort = [null, 0];
         this.currentSorted();
       }
     },
     sortByDistance() {
-      this.nameSorted = 0;
-      this.dateSorted = 0;
-      this.totalSorted = 0;
-      if (this.distanceSorted === 0) {
-        this.distanceSorted = 1;
+      if (this.activeSort[0] !== "distance") this.activeSort = ["distance", 0];
+      if (this.activeSort[1] === 0) {
+        this.activeSort[1] = 1;
         this.tableData.sort((a, b) => {
           return a.distance - b.distance;
         });
-      } else if (this.distanceSorted === 1) {
-        this.distanceSorted = -1;
+      } else if (this.activeSort[1] === 1) {
+        this.activeSort[1] = -1;
         this.tableData.sort((a, b) => {
           return b.distance - a.distance;
         });
-      } else if (this.distanceSorted === -1) {
-        this.distanceSorted = 0;
+      } else {
+        this.activeSort = [null, 0];
         this.currentSorted();
       }
     },
