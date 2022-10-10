@@ -87,9 +87,7 @@ export default {
       this.pageNumber = page;
     },
     currentSorted() {
-      this.tableData.sort((a, b) => {
-        return a.id - b.id;
-      });
+      this.tableData.sort((a, b) => a.id - b.id);
     },
     sortByDate() {
       if (this.activeSort[0] !== "date") this.activeSort = ["date", 0];
