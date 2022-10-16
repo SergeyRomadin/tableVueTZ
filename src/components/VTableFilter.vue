@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import dayjs from "dayjs";
 import { mapMutations, mapState } from "vuex";
 export default {
   props: { propTableData: Array },
