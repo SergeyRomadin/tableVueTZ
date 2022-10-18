@@ -79,6 +79,16 @@ export default {
 }
 .input {
   width: 20vw;
+  height: 4vh;
+  margin-right: 10px;
+  border: none;
+  border-bottom: 1px solid #2c3e50;
+
+  &:focus {
+    border: #2c3e50 solid 1px;
+    border-radius: 5px;
+    outline: #2c3e5000 solid 1px;
+  }
   @media (max-width: 479px) {
     width: 100%;
   }

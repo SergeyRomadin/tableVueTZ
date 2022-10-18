@@ -1,5 +1,8 @@
 # table
 
+![Скриншот превью проекта](https://github.com/SergeyRomadin/
+tableVueTZ/raw/master/TablePrev.png)
+
 ## Project setup
 
 ```
